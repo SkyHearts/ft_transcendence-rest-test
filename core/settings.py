@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     #### External app ####
     "django.contrib.sites",
     "rest_framework",
+    'rest_framework_simplejwt', # added test by wongzx
     "rest_framework.authtoken",
     "allauth",
     "allauth.account",
@@ -58,6 +59,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
     ],
 
     'DEFAULT_PERMISSION_CLASSES': [
