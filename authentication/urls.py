@@ -13,6 +13,10 @@ from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
 from allauth.socialaccount.views import signup
 from authentication.views import FourtyTwoLogin
 from . import views
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 
 urlpatterns = [
@@ -35,5 +39,7 @@ urlpatterns = [
     ####
     path("signup/", signup, name="socialaccount_signup"),
     path("fourtytwo/", FourtyTwoLogin.as_view(), name="fourtytwo_login"),
+    path("token/", TokenObtainPairView.as_view()),
+    path("token/refresh/", TokenRefreshView.as_view()),
     # path("callback/", callback, name="callback"),
 ]
