@@ -5,6 +5,8 @@ from . import views
 app_name = "auth_user"
 
 urlpatterns = [
-    path("login/", views.login, name="login"),
-    path("verify/", views.verify, name="verify"),
+    path("send_otp/", views.send_otp, name="send_otp"),
+    path("login/", views.login_with_otp, name="login"),
+    path("register/", views.register, name="register"),
+    path("get_user/", views.get_user, name="user"),
 ]
