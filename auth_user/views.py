@@ -74,6 +74,7 @@ def login_with_otp(request):
         ):
             # Verification successful, generate access and refresh tokens
             django_login(request, user)
+            user.email_verified = True
             # Implement your token generation logic here
 
             # Use djangorestframework_simplejwt to generate tokens
@@ -93,7 +94,7 @@ def login_with_otp(request):
 
     return Response({'detail': 'Invalid verification code or credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 
-# Next: register() new auth_user & verification status
+# Register() new auth_user & verification status
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register(request):
@@ -104,14 +105,14 @@ def register(request):
     user_exists = User.objects.filter(email=email).exists()
 
     if not user_exists:
-        user = User.objects.create_user(email=email, password=password)
-        send_otp(request)
+        user = User.objects.create_user(username=username, email=email, password=password)
+        send_otp(request=request)
         return Response({'detail': 'User registered successfully. OTP sent for verification.'}, status=200)
     else:
         return Response({'detail': 'User with this email already exists.'}, status=400)
 
 
-# Next: test function to verify jwt token for sensitive data
+# Test function to verify jwt token for sensitive data
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
