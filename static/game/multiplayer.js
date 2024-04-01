@@ -178,7 +178,7 @@ function sendMultiPlayerData() {
 	}
 }
 
-export function processSendLiveGameData(liveGameData) {
+function processSendLiveGameData(liveGameData) {
 	const clientWidth = global.clientWidth;
 	liveGameData.sphereMeshProperty.forEach(sphereMeshProperty => {
 		sphereMeshProperty.positionX = sphereMeshProperty.positionX / clientWidth;
@@ -227,7 +227,9 @@ function processReceiveLiveGameData(liveGameData) {
 
 }
 
-export function createGameSocket(mainClient) {
+async function createGameSocket(mainClient) {
+	// refresh
+	await refreshFetch("/api/auth/token/refresh/", {method: "POST"});
 	global.socket.gameSocket = new WebSocket(
 		'ws://'
 		+ window.location.host
@@ -497,19 +499,20 @@ function keyBindingMultiplayer() {
 		})) {
 			if (global.socket.gameLobbySocket && global.socket.gameLobbySocket.readyState === WebSocket.OPEN)
 				global.socket.gameLobbySocket.send(JSON.stringify({ mode: "create", gameMode: "versus" }));
-			createGameSocket(global.gameplay.username)
-			global.socket.gameSocket.onopen = function () {
-				global.ui.multiCreate = 1;
-				global.ui.multiLobby = 0;
-				global.socket.gameInfo.mainClient = global.gameplay.username;
-				global.socket.gameInfo.gameMode = "versus";
-				global.socket.gameInfo.playerGame = [{ teamName: "TeamOne", score: 0, player: [], winner: false, cheatCount: global.gameplay.defaultCheatCount }, { teamName: "TeamTwo", score: 0, player: [], winner: false, cheatCount: global.gameplay.defaultCheatCount }];
-				if (global.socket.gameSocket && global.socket.gameSocket.readyState === WebSocket.OPEN)
-					global.socket.gameSocket.send(JSON.stringify({
-						mode: "create",
-						gameInfo: global.socket.gameInfo
-					}))
-			}
+			createGameSocket(global.gameplay.username).then(data=>{
+				global.socket.gameSocket.onopen = function () {
+					global.ui.multiCreate = 1;
+					global.ui.multiLobby = 0;
+					global.socket.gameInfo.mainClient = global.gameplay.username;
+					global.socket.gameInfo.gameMode = "versus";
+					global.socket.gameInfo.playerGame = [{ teamName: "TeamOne", score: 0, player: [], winner: false, cheatCount: global.gameplay.defaultCheatCount }, { teamName: "TeamTwo", score: 0, player: [], winner: false, cheatCount: global.gameplay.defaultCheatCount }];
+					if (global.socket.gameSocket && global.socket.gameSocket.readyState === WebSocket.OPEN)
+						global.socket.gameSocket.send(JSON.stringify({
+							mode: "create",
+							gameInfo: global.socket.gameInfo
+						}))
+				}
+			})
 		}
 	})
 
@@ -550,18 +553,19 @@ function keyBindingMultiplayer() {
 		})) {
 			if (global.socket.gameLobbySocket && global.socket.gameLobbySocket.readyState === WebSocket.OPEN)
 				global.socket.gameLobbySocket.send(JSON.stringify({ mode: "create", gameMode: "tournament" }));
-			createGameSocket(global.gameplay.username)
-			global.socket.gameSocket.onopen = function () {
-				global.ui.multiCreate = 1;
-				global.ui.multiLobby = 0;
-				global.socket.gameInfo.mainClient = global.gameplay.username;
-				global.socket.gameInfo.gameMode = "tournament";
-				if (global.socket.gameSocket && global.socket.gameSocket.readyState === WebSocket.OPEN)
-					global.socket.gameSocket.send(JSON.stringify({
-						mode: "create",
-						gameInfo: global.socket.gameInfo
-					}))
-			}
+			createGameSocket(global.gameplay.username).then(data=>{
+				global.socket.gameSocket.onopen = function () {
+					global.ui.multiCreate = 1;
+					global.ui.multiLobby = 0;
+					global.socket.gameInfo.mainClient = global.gameplay.username;
+					global.socket.gameInfo.gameMode = "tournament";
+					if (global.socket.gameSocket && global.socket.gameSocket.readyState === WebSocket.OPEN)
+						global.socket.gameSocket.send(JSON.stringify({
+							mode: "create",
+							gameInfo: global.socket.gameInfo
+						}))
+				}
+			})
 		}
 	})
 	const multiCreateDuration = document.getElementById("multi-create-duration");
@@ -701,4 +705,4 @@ function keyBindingMultiplayer() {
 	})
 }
 
-export { multiGameStart, sendMultiPlayerData, keyBindingMultiplayer }
+export { multiGameStart, sendMultiPlayerData, keyBindingMultiplayer, processSendLiveGameData, createGameSocket}

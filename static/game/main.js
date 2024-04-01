@@ -90,8 +90,8 @@ function windowResize(e) {
 			document.querySelector(".main-nav").style.height = "0";
 		}
 		else if (body.clientWidth >= 577 && body.clientWidth <= 993)  {
-			let canvasWidth = body.clientWidth;
-			let canvasHeight = body.clientWidth / global.arena.aspect;
+			let canvasWidth = document.querySelector(".main-container").clientWidth;
+			let canvasHeight = document.querySelector(".main-container").clientWidth / global.arena.aspect;
 			canvas.style.width = canvasWidth;
 			canvas.style.height = canvasHeight;
 			canvas.style.transform ='';
@@ -113,15 +113,6 @@ function windowResize(e) {
 			document.querySelector(".chat-container").style.width = "0";
 			document.querySelector(".main-nav").style.width = "0";
 		}
-	}
-	
-	//for local  or multiplayer mainClient
-	if (global.gameplay.local || !global.gameplay.local && global.gameplay.username === global.socket.gameInfo.mainClient) {
-		global.sphere.sphereMesh.forEach(sphereMesh=>{
-			sphereMesh.velocityX = canvas.clientWidth / global.sphere.velocityDivision;
-			sphereMesh.velocityY = canvas.clientWidth / global.sphere.velocityDivision;
-			sphereMesh.velocityZ = canvas.clientWidth / global.sphere.velocityDivision;
-		})
 	}
 }
 

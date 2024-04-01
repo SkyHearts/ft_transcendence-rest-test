@@ -244,7 +244,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = 'media/' # Public URL at the browser
 
 # URL
-BASE_URL = "http://192.168.252.150:8000/"
+BASE_URL = "http://10.15.3.3:8000/"
 
 # Upload settings
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760 # 10*1024*1024 (10mb)

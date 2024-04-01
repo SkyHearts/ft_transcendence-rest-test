@@ -97,6 +97,7 @@ button:hover, button:focus {
 	}
 	.login-banner-container {
 		margin:0.25rem 0;
+		margin-left:2rem;
 	}
 	.login-banner {
 		margin:0.25rem 0;
