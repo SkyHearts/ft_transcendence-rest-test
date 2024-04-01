@@ -155,6 +155,7 @@
 }
 
 .dimmed-background {
+	border-radius:0.25rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -188,8 +189,8 @@
     height: 100px;
     animation: spin 2s linear infinite;
     position: absolute;
-    top: 45%;
-    left: 45%;
+    top: 30%;
+    left: 35%;
     transform: translate(-50%, -50%);
     z-index: 9999;
     /* Ensure spinner is on top of other elements */
