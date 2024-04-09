@@ -82,7 +82,7 @@ class ChatSocketManager {
 // Initiate socket manager
 const chatSocketManager = new ChatSocketManager
 
-const lobby = 'ws://'
+const lobby = 'wss://'
 + window.location.host
 + '/ws/chat/lobby/';
 
@@ -93,7 +93,7 @@ const lobby = 'ws://'
 // Use to enter game chat, run when button to join game is clicked
 // Function reuses currentChatRoomSocket to move betwwen game chat
 async function enterChatRoom(room) {
-    let url = 'ws://'
+    let url = 'wss://'
     + window.location.host
     + '/ws/chat/chat-' + room +'/';
     // createChatSocket(url);
@@ -508,7 +508,7 @@ async function createPrivateMessage(e){
             }));
 
             await refreshFetch("/api/auth/token/refresh/", {method: "POST"});
-            let socket = new WebSocket('ws://'
+            let socket = new WebSocket('wss://'
             + window.location.host
             + '/ws/pm/' + roomname + '/');
 
@@ -685,7 +685,7 @@ async function acceptPrivateMessage(data){
     
             } else {
                 await refreshFetch("/api/auth/token/refresh/", {method: "POST"});
-                let socket = new WebSocket('ws://'
+                let socket = new WebSocket('wss://'
                 + window.location.host
                 + '/ws/pm/' + roomname + '/');
     
