@@ -134,15 +134,16 @@ docker compose -f ./docker-compose.yml up -d --build
 ## Features
 <details>
   <summary>
-    Chat System
+    Live Chat System
   </summary>
+  <img src="readme_src/chat.gif">
 </details>
 <details>
   <summary>
-    Friend System
+    Gameplay
   </summary>
+  <img src="readme_src/gameplay.gif">
 </details>
-<details>
   <summary>
     Gameplay
   </summary>
